@@ -39,12 +39,10 @@ namespace Cassette
 
 		void CoverCollectionCoverTapped (Cover cover, UIView view)
 		{
-			var frame = CoverCollection.ConvertRectToView (view.Frame, View);
-
 			OriginalView = view;
-			OriginalFrame = frame;
+			OriginalFrame = CoverCollection.ConvertRectToView (view.Frame, View);
 
-			CoverView = new BigCoverView { Frame = frame, Image = cover.CoverImage };
+			CoverView = new BigCoverView { Frame = OriginalFrame, Image = cover.CoverImage };
 			CoverView.Tapped += _ => TransitionFromBigCoverBackToCoverCollection ();
 		
 			View.AddSubview (CoverView);
