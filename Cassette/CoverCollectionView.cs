@@ -9,54 +9,7 @@ using MonoTouch.UIKit;
 using Xamarin.Juice;
 
 namespace Cassette
-{
-	class CoverCell : UICollectionViewCell
-	{
-		Cover cover;
-		readonly UIImageView ImageView;
-
-		public static readonly SizeF DefaultSize;
-
-		static CoverCell ()
-		{
-			var size = UIScreen.MainScreen.Bounds.Width / 2;
-			DefaultSize = new SizeF (size, size);
-		}
-
-		public CoverCell (IntPtr handle) : base (handle)
-		{
-			Frame = new RectangleF (PointF.Empty, DefaultSize);
-			ImageView = new UIImageView (Frame);
-			ContentView.Add (ImageView);
-		}
-
-		public Cover Cover {
-			get { return cover; }
-			set {
-				cover = value;
-				ImageView.Image = cover.CoverImage;
-			}
-		}
-	}
-
-	public class Cover
-	{
-		public readonly string ImagePath;
-
-		Lazy<UIImage> CoverImageLazy;
-
-		public UIImage CoverImage {
-			get {
-				return CoverImageLazy.Value;
-			}
-		}
-		public Cover (string imagePath)
-		{
-			ImagePath = imagePath;
-			CoverImageLazy = new Lazy<UIImage> (() => UIImage.FromFile (ImagePath));
-		}
-	}
-
+{	
 	public class CoverCollectionView : UICollectionView
 	{
 		public static readonly NSString CoverCellId = (NSString) "CoverCellId";
@@ -72,6 +25,35 @@ namespace Cassette
 			Delegate = @delegate;
 
 			@delegate.CoverCellSelected += (cover, view) => CoverTapped (cover, view);
+		}
+
+		class CoverCell : UICollectionViewCell
+		{
+			Cover cover;
+			readonly UIImageView ImageView;
+
+			public static readonly SizeF DefaultSize;
+
+			static CoverCell ()
+			{
+				var size = UIScreen.MainScreen.Bounds.Width / 2;
+				DefaultSize = new SizeF (size, size);
+			}
+
+			public CoverCell (IntPtr handle) : base (handle)
+			{
+				Frame = new RectangleF (PointF.Empty, DefaultSize);
+				ImageView = new UIImageView (Frame);
+				ContentView.Add (ImageView);
+			}
+
+			public Cover Cover {
+				get { return cover; }
+				set {
+					cover = value;
+					ImageView.Image = cover.CoverImage;
+				}
+			}
 		}
 
 		class CoverLayoutDelegate : UICollectionViewDelegateFlowLayout
