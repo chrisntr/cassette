@@ -15,6 +15,8 @@ namespace Cassette
 	{
 		PointF PanOrigin;
 
+		event Action MenuClosed, MenuOpened;
+
 		readonly UIView CloseMenuTapDetectView;
 		readonly AddShadowView ContentView;
 
@@ -35,7 +37,7 @@ namespace Cassette
 			View = new UIView (UIScreen.MainScreen.Bounds);
 			View.AddGestureRecognizer (new RevealMenuGestureRecognizer (Pan));
 
-			ContentView = new AddShadowView ();
+			ContentView = new AddShadowView { DrawShadow = false };
 
 			CloseMenuTapDetectView = new UIView {
 				Alpha = 0.011f,
@@ -49,8 +51,17 @@ namespace Cassette
 				UIView.Animate (0.2, 0, UIViewAnimationOptions.CurveEaseOut, () => {
 					ContentView.Frame = View.Frame;
 				}, () => {
+					MenuClosed.Raise ();
 				});
 			}));
+
+			MenuOpened += () => {
+				View.BringSubviewToFront (CloseMenuTapDetectView);
+			};
+
+			MenuClosed += () => {
+				ContentView.DrawShadow = false;
+			};
 
 			View.AddSubviews (
 				CloseMenuTapDetectView, 
@@ -62,8 +73,10 @@ namespace Cassette
 		void Pan (RevealMenuGestureRecognizer gesture)
 		{
 			var viewToSlide = ContentView;
+			var menuShouldOpen = viewToSlide.Frame.X > View.Frame.Width / 4;
 
 			if (gesture.State == UIGestureRecognizerState.Began) {
+				ContentView.DrawShadow = true;
 				PanOrigin = viewToSlide.Frame.Location;
 				View.SendSubviewToBack (CloseMenuTapDetectView);
 			}
@@ -73,7 +86,6 @@ namespace Cassette
 
 			if (gesture.State == UIGestureRecognizerState.Ended) {
 				var destination = PointF.Empty;
-				var menuShouldOpen = viewToSlide.Frame.X > View.Frame.Width / 4;
 
 				if (menuShouldOpen)
 					destination = new PointF (View.Frame.Width / 2, 0);
@@ -81,8 +93,7 @@ namespace Cassette
 				UIView.Animate (0.3, () => {
 					viewToSlide.Frame = viewToSlide.Frame.With (Location: destination);
 				}, () => {
-					if (menuShouldOpen)
-						View.BringSubviewToFront (CloseMenuTapDetectView);
+					(menuShouldOpen ? MenuOpened : MenuClosed).Raise ();
 				});
 			}
 		}

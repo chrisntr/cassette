@@ -15,6 +15,17 @@ namespace Cassette
 	{
 		UIView _view;
 
+		const float DefaultShadowOpacity = 0.5f;
+		const int DefaultShadowRadius = 5;
+
+		float _shadowOpacity;
+		public float ShadowOpacity {
+			get { return _shadowOpacity; }
+			set {
+				Layer.ShadowOpacity = _shadowOpacity = value;
+			}
+		}
+
 		public UIView View {
 			get { return _view; }
 			set {
@@ -34,14 +45,24 @@ namespace Cassette
 			}
 		}
 
+		public bool DrawShadow {
+			get {
+				return Layer.ShadowOpacity != 0;
+			}
+			set {
+				Layer.ShadowOpacity = value ? ShadowOpacity : 0;
+			}
+		}
+
 		public AddShadowView ()
 		{
 			ClipsToBounds = false;
 			Layer.ShouldRasterize = true;
 			Layer.RasterizationScale = UIScreen.MainScreen.Scale;
-			Layer.ShadowRadius = 10;
+			Layer.ShadowRadius = DefaultShadowRadius;
 			Layer.ShadowColor = new CGColor (0, 0, 0);
-			Layer.ShadowOpacity = 0.5f;
+
+			ShadowOpacity = DefaultShadowOpacity;
 		}
 
 		public AddShadowView (UIView view) : this ()

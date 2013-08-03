@@ -36,7 +36,6 @@ namespace Cassette
 		{
 			View = new UIView (frame);
 			View.AddSubview (CoverCollection = new CoverCollectionView (frame));
-
 			CoverCollection.CoverTapped += CoverCollectionCoverTapped;
 		}
 
