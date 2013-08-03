@@ -35,7 +35,7 @@ namespace Cassette
 		public MainController ()
 		{
 			View = new UIView (UIScreen.MainScreen.Bounds);
-			View.AddGestureRecognizer (new RevealMenuGestureRecognizer (Pan));
+			View.AddGestureRecognizer (new UIPanGestureRecognizer (Pan));
 
 			ContentView = new AddShadowView { DrawShadow = false };
 
@@ -70,7 +70,7 @@ namespace Cassette
 			);
 		}
 
-		void Pan (RevealMenuGestureRecognizer gesture)
+		void Pan (UIPanGestureRecognizer gesture)
 		{
 			var viewToSlide = ContentView;
 			var menuShouldOpen = viewToSlide.Frame.X > View.Frame.Width / 4;

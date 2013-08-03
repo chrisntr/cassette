@@ -90,7 +90,6 @@
   <ItemGroup>
     <Compile Include="Main.cs" />
     <Compile Include="MainController.cs" />
-    <Compile Include="RevealMenuGestureRecognizer.cs" />
     <Compile Include="MenuView.cs" />
     <Compile Include="AppDelegate.cs" />
     <Compile Include="CoverController.cs" />
