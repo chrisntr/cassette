@@ -77,7 +77,7 @@ namespace Cassette
 			if (gesture.State == UIGestureRecognizerState.Began) {
 				PanOrigin = viewToSlide.Frame.Location;
 
-				// We may have started to pan the menu while it was closed.
+				// We may have started to pan the menu while it was open.
 				// In that case we need to remove the CloseTapDetectView.
 				if (CloseMenuTapDetectView != null) {
 					CloseMenuTapDetectView.RemoveFromSuperview ();
