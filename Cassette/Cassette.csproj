@@ -91,10 +91,10 @@
     <Compile Include="Main.cs" />
     <Compile Include="MainController.cs" />
     <Compile Include="RevealMenuGestureRecognizer.cs" />
-    <Compile Include="CoverListView.cs" />
     <Compile Include="MenuView.cs" />
     <Compile Include="AppDelegate.cs" />
     <Compile Include="CoverController.cs" />
+    <Compile Include="CoverCollectionView.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>

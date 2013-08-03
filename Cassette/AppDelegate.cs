@@ -17,7 +17,7 @@ namespace Cassette
 		{
 			window = new UIWindow (UIScreen.MainScreen.Bounds) {
 				RootViewController = new MainController {
-					ContentController = new CoverController ()
+					ContentController = new CoverController (UIScreen.MainScreen.Bounds)
 				}
 			};
 			window.MakeKeyAndVisible ();
