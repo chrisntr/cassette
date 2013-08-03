@@ -11,7 +11,7 @@ using Xamarin.Juice;
 
 namespace Cassette
 {
-	public class MainController : UIViewController
+	public class TopLevelController : UIViewController
 	{
 		PointF PanOrigin;
 
@@ -32,7 +32,7 @@ namespace Cassette
 			}
 		}
 
-		public MainController ()
+		public TopLevelController ()
 		{
 			View = new UIView (UIScreen.MainScreen.Bounds);
 			View.AddGestureRecognizer (new UIPanGestureRecognizer (Pan));

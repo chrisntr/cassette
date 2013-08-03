@@ -89,13 +89,14 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Main.cs" />
-    <Compile Include="MainController.cs" />
     <Compile Include="MenuView.cs" />
     <Compile Include="AppDelegate.cs" />
-    <Compile Include="CoverController.cs" />
     <Compile Include="CoverCollectionView.cs" />
     <Compile Include="AddShadowView.cs" />
     <Compile Include="Cover.cs" />
+    <Compile Include="ContentController.cs" />
+    <Compile Include="TopLevelController.cs" />
+    <Compile Include="BigCoverView.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>

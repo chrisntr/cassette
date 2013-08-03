@@ -10,21 +10,7 @@ using Xamarin.Juice;
 
 namespace Cassette
 {
-
-	class BigCoverView : UIImageView
-	{
-		public event Action<BigCoverView> Tapped = delegate {};
-
-		public BigCoverView ()
-		{
-			UserInteractionEnabled = true;
-			AddGestureRecognizer (
-				new UITapGestureRecognizer (() => Tapped (this))
-			);
-		}
-	}
-
-	public class CoverController : UIViewController
+	public class ContentController : UIViewController
 	{
 		readonly CoverCollectionView CoverCollection;
 
@@ -32,7 +18,7 @@ namespace Cassette
 		RectangleF OriginalFrame;
 		BigCoverView CoverView;
 
-		public CoverController (RectangleF frame)
+		public ContentController (RectangleF frame)
 		{
 			View = new UIView (frame);
 			View.AddSubview (CoverCollection = new CoverCollectionView (frame));

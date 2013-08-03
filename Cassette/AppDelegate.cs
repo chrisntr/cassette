@@ -16,8 +16,8 @@ namespace Cassette
 		public override bool FinishedLaunching (UIApplication app, NSDictionary options)
 		{
 			window = new UIWindow (UIScreen.MainScreen.Bounds) {
-				RootViewController = new MainController {
-					ContentController = new CoverController (UIScreen.MainScreen.Bounds)
+				RootViewController = new TopLevelController {
+					ContentController = new ContentController (UIScreen.MainScreen.Bounds)
 				}
 			};
 			window.MakeKeyAndVisible ();
