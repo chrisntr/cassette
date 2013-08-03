@@ -1,23 +1,22 @@
 using System;
-using System.Drawing;
 using System.Linq;
+using System.Drawing;
 using System.Collections.Generic;
 
-using MonoTouch.Foundation;
 using MonoTouch.UIKit;
+using MonoTouch.Foundation;
 using MonoTouch.CoreGraphics;
 
 using Xamarin.Juice;
 
 namespace Cassette
-{	
+{
 	public class MainController : UIViewController
 	{
-
-		event Action MenuOpened = delegate {};
-
 		PointF PanOrigin;
-		UIView CloseMenuTapDetectView;
+
+		readonly UIView CloseMenuTapDetectView;
+		readonly AddShadowView ContentView;
 
 		UIViewController _ContentController;
 		public UIViewController ContentController {
@@ -26,30 +25,18 @@ namespace Cassette
 				if (_ContentController == value)
 					return;
 
-				if (_ContentController != null) {
-					_ContentController.View.RemoveFromSuperview ();
-					_ContentController = null;
-				}
-
 				_ContentController = value;
-				View.AddSubview (_ContentController.View);
+				ContentView.View = _ContentController.View;
 			}
 		}
 
 		public MainController ()
 		{
 			View = new UIView (UIScreen.MainScreen.Bounds);
+			View.AddGestureRecognizer (new RevealMenuGestureRecognizer (Pan));
 
-			var recognizer = new RevealMenuGestureRecognizer (Pan);
-			View.AddGestureRecognizer (recognizer);
+			ContentView = new AddShadowView ();
 
-			MenuOpened += AddCloseMenuTapDetectView;
-
-			View.Add (new MenuView (View.Frame));
-		}
-
-		void AddCloseMenuTapDetectView ()
-		{
 			CloseMenuTapDetectView = new UIView {
 				Alpha = 0.011f,
 				BackgroundColor = UIColor.Black,
@@ -57,32 +44,28 @@ namespace Cassette
 			};
 
 			CloseMenuTapDetectView.AddGestureRecognizer (new UITapGestureRecognizer (() => {
-				CloseMenuTapDetectView.RemoveFromSuperview ();
+				View.SendSubviewToBack (CloseMenuTapDetectView);
 
 				UIView.Animate (0.2, 0, UIViewAnimationOptions.CurveEaseOut, () => {
-					ContentController.View.Frame = View.Frame;
+					ContentView.Frame = View.Frame;
 				}, () => {
 				});
-				
-				CloseMenuTapDetectView = null;
 			}));
 
-			View.AddSubview (CloseMenuTapDetectView);
+			View.AddSubviews (
+				CloseMenuTapDetectView, 
+				new MenuView (View.Frame),
+				ContentView
+			);
 		}
 
 		void Pan (RevealMenuGestureRecognizer gesture)
 		{
-			var viewToSlide = ContentController.View;
+			var viewToSlide = ContentView;
 
 			if (gesture.State == UIGestureRecognizerState.Began) {
 				PanOrigin = viewToSlide.Frame.Location;
-
-				// We may have started to pan the menu while it was open.
-				// In that case we need to remove the CloseTapDetectView.
-				if (CloseMenuTapDetectView != null) {
-					CloseMenuTapDetectView.RemoveFromSuperview ();
-					CloseMenuTapDetectView = null;
-				}
+				View.SendSubviewToBack (CloseMenuTapDetectView);
 			}
 
 			var movement = gesture.TranslationInView (View);
@@ -99,7 +82,7 @@ namespace Cassette
 					viewToSlide.Frame = viewToSlide.Frame.With (Location: destination);
 				}, () => {
 					if (menuShouldOpen)
-						MenuOpened ();
+						View.BringSubviewToFront (CloseMenuTapDetectView);
 				});
 			}
 		}
