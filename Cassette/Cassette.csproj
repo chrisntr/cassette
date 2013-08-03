@@ -127,9 +127,9 @@
     <BundleResource Include="Resources\Icon.png" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\..\Developer\Xamarin.Juice\Xamarin.Juice.iOS\Xamarin.Juice.iOS.csproj">
-      <Project>{B37F93BA-7950-41A0-9C6E-C7911FDC5AD9}</Project>
-      <Name>Xamarin.Juice.iOS</Name>
+    <ProjectReference Include="..\Xamarin.Juice\Xamarin.Juice.csproj">
+      <Project>{90E58DA6-EBF9-4259-8694-45D9FF594E3B}</Project>
+      <Name>Xamarin.Juice</Name>
     </ProjectReference>
   </ItemGroup>
 </Project>
